@@ -12,6 +12,7 @@ After completing all the steps., we'd have enabled complete Q-Safe protection fo
 ## 1) Legacy HTTPS to Ingress and HTTP connection Intra-Cluster
 - Prerequisite : Make sure that the gateway certs are generated and uploaded as a secret 
 ```bash 
+cd maistra-2.1/bookinfo
 ./generate-certs.sh
 
 # Do the following only for IBM Cloud
