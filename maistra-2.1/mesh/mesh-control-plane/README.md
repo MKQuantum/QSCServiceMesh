@@ -20,5 +20,5 @@ helm install mesh-control-plane -n istio-system .
 ### Wait for the resources in the istio-system namespace until they are ready
 
 ```bash 
-watch 'kubectl describe smcp -n istio-system | tail'
+watch 'oc describe smcp -n istio-system | tail'
 ```
