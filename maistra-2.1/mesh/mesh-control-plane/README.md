@@ -13,6 +13,7 @@ oc get secret all-icr-io -n default -o yaml | sed 's/default/istio-system/g' | o
 #### Deploy the Control Plane
 
 ```bash 
+cd maistra-2.1/mesh/mesh-control-plane
 helm install mesh-control-plane -n istio-system .
 ```
 
