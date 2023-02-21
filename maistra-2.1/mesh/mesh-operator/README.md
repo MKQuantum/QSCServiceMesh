@@ -20,7 +20,7 @@ helm install mesh-operator -n istio-operator .
 ### Wait for the resources in the istio-operator namespace until they are ready
 
 ```bash 
-oc 'kubectl get pods -n istio-operator'
+watch 'oc get pods -n istio-operator'
 ```
 
 You should see something like this:
