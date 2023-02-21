@@ -1,0 +1,52 @@
+apiVersion: maistra.io/v2
+kind: ServiceMeshControlPlane
+metadata:
+  name: full
+spec:
+  tracing:
+    type: Jaeger
+  addons:
+    jaeger:
+      name: jaeger
+      install: {}
+    grafana:
+      enabled: true
+      install: {}
+    kiali:
+      name: kiali
+      enabled: true
+      install: {}
+    prometheus:
+      enabled: true
+  security:
+    dataPlane:
+      mtls: false
+      automtls: false
+    controlPlane:
+      mtls: false
+  gateways:
+    openshiftRoute:
+      enabled: true
+    ingress:
+      service:
+        type: ClusterIP
+        ports:
+          - name: status-port
+            port: {{ .Values.externalPort.status }}
+          - name: http2
+            port: {{ .Values.externalPort.http }}
+            targetPort: 8080
+          - name: https
+            port: {{ .Values.externalPort.https }}
+            targetPort: 8443
+      meshExpansionPorts: []
+---
+apiVersion: maistra.io/v1
+kind: ServiceMeshMemberRoll
+metadata:
+  name: default
+spec:
+  members:
+  {{- range $ns := .Values.monitor.namespaces }}
+    - {{ $ns }}
+  {{- end }}

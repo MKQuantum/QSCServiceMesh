@@ -1,0 +1,30 @@
+{{- if .Values.ingress.qsc.enabled }}
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: gw-downstream-filter
+  namespace: {{ .Values.controlPlaneNamespace }}
+spec:
+  configPatches:
+    - applyTo: FILTER_CHAIN
+      match:
+        context: GATEWAY
+        listener:
+          filterChain:
+            name: {{ .Values.ingress.hostName }}
+      patch:
+        operation: MERGE
+        value:
+          transport_socket:
+            name: envoy.transport_sockets.tls
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.DownstreamTlsContext
+              common_tls_context:
+                tls_params:
+                  tls_maximum_protocol_version: {{ .Values.ingress.qsc.maxTLSVersion }}
+                  tls_minimum_protocol_version: {{ .Values.ingress.qsc.minTLSVersion }}
+                  ecdh_curves:
+                  {{- range $kem := .Values.ingress.qsc.algorithm }}
+                    - {{ $kem.kem | quote }}
+                  {{- end }}
+{{- end }}

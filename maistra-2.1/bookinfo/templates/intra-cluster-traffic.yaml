@@ -1,0 +1,27 @@
+apiVersion: "security.istio.io/v1beta1"
+kind: "PeerAuthentication"
+metadata:
+  name: default
+  namespace: {{ .Release.Namespace }}
+spec:
+  mtls:
+    {{- if not .Values.intraCluster.mutualTLS}}
+    mode: DISABLE
+    {{- else }}
+    mode: STRICT
+    {{- end }}
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: default
+  namespace: {{ .Release.Namespace }}
+spec:
+  host: "*.{{ .Release.Namespace }}.svc.cluster.local"
+  trafficPolicy:
+    tls:
+      {{- if not .Values.intraCluster.mutualTLS}}
+      mode: DISABLE
+      {{- else }}
+      mode: ISTIO_MUTUAL
+      {{- end }}

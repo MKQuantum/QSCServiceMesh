@@ -1,0 +1,29 @@
+images:
+  version2_1:
+    threeScale:
+      repository: "quay.io/3scale/3scale-istio-adapter"
+      tag: "v2.0.0"
+    cni:
+      repository: "docker.io/vmeibm/istio-cni-ubi8"
+      tag: "2.1"
+    grafana:
+      repository: "docker.io/vmeibm/grafana-ubi8"
+      tag: "2.1"
+    pilot:
+      repository: "docker.io/vmeibm/pilot-ubi8"
+      tag: "2.1"
+    prometheus:
+      repository: "docker.io/vmeibm/prometheus-ubi8"
+      tag: "2.1"
+    proxyv2:
+      repository: "docker.io/vmeibm/proxyv2"
+      tag: "qsc-2.1"
+    wasmCacher:
+      repository: "docker.io/vmeibm/pilot-ubi8"
+      tag: "2.1"
+    rls:
+      repository: "docker.io/vmeibm/ratelimit-ubi8"
+      tag: "2.1"
+    operator:
+      repository: "docker.io/vmeibm/istio-ubi8-operator"
+      tag: "2.1"

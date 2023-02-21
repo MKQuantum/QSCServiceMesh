@@ -1,0 +1,91 @@
+{{- if .Values.intraCluster.mutualTLS }}
+{{- if .Values.intraCluster.qsc.enabled }}
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: gw-upstream-filter
+  namespace: {{ .Values.controlPlaneNamespace }}
+spec:
+  configPatches:
+    {{- range $serviceName := .Values.intraCluster.qsc.services }}
+    - applyTo: CLUSTER
+      match:
+        context: GATEWAY
+        cluster:
+          service: "{{ $serviceName.name }}.{{ $.Release.Namespace }}.svc.cluster.local"
+      patch:
+        operation: MERGE
+        value:
+          transport_socket:
+            name: envoy.transport_sockets.tls
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.UpstreamTlsContext
+              common_tls_context:
+                tls_params:
+                  tls_maximum_protocol_version: {{ $.Values.intraCluster.qsc.maxTLSVersion }}
+                  tls_minimum_protocol_version: {{ $.Values.intraCluster.qsc.minTLSVersion }}
+                  ecdh_curves:
+                    {{- range $kem := $.Values.intraCluster.qsc.algorithm }}
+                    - {{ $kem.kem | quote }}
+                    {{- end }}
+    {{- end}}
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: downstream-filter
+  namespace: {{ .Release.Namespace }}
+spec:
+  configPatches:
+    - applyTo: FILTER_CHAIN
+      match:
+        listener:
+          filterChain:
+            transportProtocol: tls
+      patch:
+        operation: MERGE
+        value:
+          transport_socket:
+            name: envoy.transport_sockets.tls
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.DownstreamTlsContext
+              common_tls_context:
+                tls_params:
+                  tls_maximum_protocol_version: {{ .Values.intraCluster.qsc.maxTLSVersion }}
+                  tls_minimum_protocol_version: {{ .Values.intraCluster.qsc.minTLSVersion }}
+                  ecdh_curves:
+                    {{- range $kem := .Values.intraCluster.qsc.algorithm }}
+                    - {{ $kem.kem | quote }}
+                    {{- end }}
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: upstream-filter
+  namespace: {{ .Release.Namespace }}
+spec:
+  configPatches:
+    {{- range $serviceName := .Values.intraCluster.qsc.services }}
+    - applyTo: CLUSTER
+      match:
+        context: SIDECAR_OUTBOUND
+        cluster:
+          service: "{{ $serviceName.name }}.{{ $.Release.Namespace }}.svc.cluster.local"
+      patch:
+        operation: MERGE
+        value:
+          transport_socket:
+            name: envoy.transport_sockets.tls
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.UpstreamTlsContext
+              common_tls_context:
+                tls_params:
+                  tls_maximum_protocol_version: {{ $.Values.intraCluster.qsc.maxTLSVersion }}
+                  tls_minimum_protocol_version: {{ $.Values.intraCluster.qsc.minTLSVersion }}
+                  ecdh_curves:
+                    {{- range $kem := $.Values.intraCluster.qsc.algorithm }}
+                    - {{ $kem.kem | quote }}
+                    {{- end }}
+    {{- end}}
+{{- end}}
+{{- end}}

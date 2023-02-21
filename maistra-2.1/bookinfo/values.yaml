@@ -1,0 +1,24 @@
+controlPlaneNamespace: istio-system
+
+ingress:
+  hostName: "bookinfo.test"
+  qsc:
+    enabled: false
+    algorithm:
+      - kem: "p256_kyber512"
+    minTLSVersion: TLSv1_3
+    maxTLSVersion: TLSv1_3
+
+intraCluster:
+  mutualTLS: false
+  qsc:
+    enabled: false
+    algorithm:
+      - kem: "p256_kyber512"
+    minTLSVersion: TLSv1_3
+    maxTLSVersion: TLSv1_3
+    services:
+      - name: "details"
+      - name: "productpage"
+      - name: "ratings"
+      - name: "reviews"
