@@ -1,2 +1,2 @@
 1. Wait for the resources in the istio-operator namespace until they are ready
-watch 'kubectl get pods -n istio-operator'
+watch 'oc get pods -n istio-operator'
