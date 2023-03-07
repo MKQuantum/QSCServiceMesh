@@ -40,7 +40,7 @@ Follow the instructions during the installation to add `krew` installation direc
 </details>
   
   <details>
-<summary><strong> wireshark (instructions for ubuntu) </strong></summary>
+<summary><strong> Wireshark (instructions for ubuntu) </strong></summary>
   
   ``` 
   sudo add-apt-repository ppa:wireshark-dev/stable
