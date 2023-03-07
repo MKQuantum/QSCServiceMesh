@@ -26,8 +26,10 @@ helm install bookinfo -n test .
 
 ### Prerequisite to validate traffic flow (install krew, ksniff, and wireshark)
 
-- krew
-  ```bash
+<details>
+<summary><strong> Krew Installation </strong></summary>
+ 
+  ```
   (
     set -x; cd "$(mktemp -d)" &&
     OS="$(uname | tr '[:upper:]' '[:lower:]')" &&
@@ -37,24 +39,34 @@ helm install bookinfo -n test .
     tar zxvf "${KREW}.tar.gz" &&
     ./"${KREW}" install krew
   )
-  ```
-  - Follow the instructions to add `krew` installation directory to your path
   
-- ksniff
-  ``` bash
+  ```
+Follow the instructions during the installation to add `krew` installation directory to your path
+
+</details>
+  
+<details>
+<summary><strong> Ksniff Installation </strong></summary>
+  
+  ```
   kubectl krew install sniff
   ```
-- wireshark (instructions for ubuntu)
-  ``` bash
+</details>
+  
+  <details>
+<summary><strong> wireshark (instructions for ubuntu) </strong></summary>
+  
+  ``` 
   sudo add-apt-repository ppa:wireshark-dev/stable
   sudo apt-get update
   sudo apt-get install wireshark
   ```
   - Configure wireshark to sniff without root
-  ``` bash 
+  ```
   sudo dpkg-reconfigure wireshark-common
   sudo chmod +x /usr/bin/dumpcap
   ```
+</details>
 
 ### Validate HTTP traffic flow between the Ingress Gateway and Product page (Intra-cluster)
 ``` bash
