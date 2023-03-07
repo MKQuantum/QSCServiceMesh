@@ -1,11 +1,23 @@
+# Table of contents
+- [Deployment Instructions](#deployment-instructions)
+  * [1) Legacy HTTPS to Ingress and HTTP connection Intra-Cluster](#1-legacy-https-to-ingress-and-http-connection-intra-cluster)
+    + [Prerequisite to validate traffic flow (install krew, ksniff, and wireshark)](#prerequisite-to-validate-traffic-flow-install-krew-ksniff-and-wireshark)
+    + [Validate HTTP traffic flow between the Ingress Gateway and Product page (Intra-cluster)](#validate-http-traffic-flow-between-the-ingress-gateway-and-product-page-intra-cluster)
+    + [Validate Legacy HTTPS traffic to Ingress Gateway](#validate-legacy-https-traffic-to-ingress-gateway)
+  * [2) Legacy HTTPS to Ingress and legacy HTTPS connection Intra-Cluster](#2-legacy-https-to-ingress-and-legacy-https-connection-intra-cluster)
+  * [3) Legacy HTTPS to Ingress and Q-Safe HTTPS connection Intra-Cluster](#3-legacy-https-to-ingress-and-q-safe-https-connection-intra-cluster)
+  * [4) Q-Safe HTTPS to Ingress and Q-Safe HTTPS connection Intra-Cluster](#4-q-safe-https-to-ingress-and-q-safe-https-connection-intra-cluster)
+    + [Validate Q-Safe HTTPS traffic to Ingress Gateway](#validate-q-safe-https-traffic-to-ingress-gateway)
+    + [Validate intra-cluster Q-Safe HTTPS traffic](#validate-intra-cluster-q-safe-https-traffic)
+
 # Deployment Instructions
 We'll start with plain HTTP, and improve the security posture incrementally to Q-Safe.
 
 The security levels we'll go through are the following -
-1. Legacy TLS connection from outside the cluster, plain HTTP connection for communication within the cluster
-2. Legacy TLS connection from outside the cluster, legacy strict mTLS connection for communication within the cluster
-3. Legacy TLS connection from outside the cluster, Q-Safe strict mTLS connection for communication within the cluster
-4. Q-Safe TLS connection from outside the cluster, Q-Safe strict mTLS connection for communication within the cluster
+1. [Legacy TLS connection from outside the cluster, plain HTTP connection for communication within the cluster](#1-legacy-https-to-ingress-and-http-connection-intra-cluster)
+2. [Legacy TLS connection from outside the cluster, legacy strict mTLS connection for communication within the cluster](#2-legacy-https-to-ingress-and-legacy-https-connection-intra-cluster)
+3. [Legacy TLS connection from outside the cluster, Q-Safe strict mTLS connection for communication within the cluster](#3-legacy-https-to-ingress-and-q-safe-https-connection-intra-cluster)
+4. [Q-Safe TLS connection from outside the cluster, Q-Safe strict mTLS connection for communication within the cluster](#4-q-safe-https-to-ingress-and-q-safe-https-connection-intra-cluster)
 
 After completing all the steps., we'd have enabled complete Q-Safe protection for network communication into and within the cluster.
 
