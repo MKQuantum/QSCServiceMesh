@@ -1,20 +1,20 @@
 # Deployment Instructions
 
 ```bash 
-oc new-project istio-system
+export SMCP_NS=istio-system
+oc new-project $SMCP_NS
 ```
 
 #### Only for IBM Cloud
 
 ```bash 
-oc get secret all-icr-io -n default -o yaml | sed 's/default/istio-system/g' | oc create -n istio-system -f -
+oc get secret all-icr-io -n default -o yaml | sed 's/default/$SMCP_NS/g' | oc create -n $SMCP_NS -f -
 ```
 
 #### Deploy the Control Plane
 
 ```bash 
 cd maistra-2.1/mesh/mesh-control-plane
-export SMCP_NS=istio-system
 helm install mesh-control-plane -n $SMCP_NS .
 ```
 
