@@ -8,7 +8,7 @@ oc new-project $SMCP_NS
 #### Only for IBM Cloud
 
 ```bash 
-oc get secret all-icr-io -n default -o yaml | sed 's/default/$SMCP_NS/g' | oc create -n $SMCP_NS -f -
+oc get secret all-icr-io -n default -o yaml | sed 's/default/'"$SMCP_NS"'/g' | oc create -n $SMCP_NS -f -
 ```
 
 #### Deploy the Control Plane
