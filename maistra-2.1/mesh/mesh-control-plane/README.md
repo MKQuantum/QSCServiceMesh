@@ -14,13 +14,14 @@ oc get secret all-icr-io -n default -o yaml | sed 's/default/istio-system/g' | o
 
 ```bash 
 cd maistra-2.1/mesh/mesh-control-plane
-helm install mesh-control-plane -n istio-system .
+export SMCP_NS=istio-system
+helm install mesh-control-plane -n $SMCP_NS .
 ```
 
 ### Wait for the resources in the istio-system namespace until they are ready
 
 ```bash 
-watch 'oc describe smcp -n istio-system | tail'
+watch 'oc describe smcp -n $SMCP_NS | tail'
 ```
 
 Look for the `Ready` event at the bottom of the event list:

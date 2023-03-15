@@ -5,5 +5,5 @@ openssl req -out book-info.apps-crc.testing.csr -newkey rsa:2048 -nodes -keyout 
 
 openssl x509 -req -days 365 -CA rootca.crt -CAkey rootca.key -set_serial 0 -in book-info.apps-crc.testing.csr -out book-info.apps-crc.testing.crt
 
-kubectl create -n istio-system secret tls bookinfo-credential --key=book-info.apps-crc.testing.key --cert=book-info.apps-crc.testing.crt
+kubectl create -n ${SMCP_NS} secret tls bookinfo-credential --key=book-info.apps-crc.testing.key --cert=book-info.apps-crc.testing.crt
 

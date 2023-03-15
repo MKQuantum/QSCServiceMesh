@@ -15,7 +15,7 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: {{.Release.Name }}maistra-admin
+  name: {{.Release.Name }}-maistra-admin
 roleRef:
   kind: ClusterRole
   apiGroup: rbac.authorization.k8s.io
@@ -278,7 +278,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     namespace: {{ .Release.Namespace }}
-    name: istio-operator
+    name: {{.Release.Name }}-istio-operator
 roleRef:
   kind: ClusterRole
   name: {{.Release.Name }}-istio-operator
@@ -289,7 +289,7 @@ roleRef:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: istio-operator
+  name: {{.Release.Name }}-istio-operator
   namespace: {{ .Release.Namespace }}
 
 ---
@@ -372,7 +372,7 @@ spec:
         olm.relatedImage.v2_1.rls: {{ .Values.images.version2_1.rls.repository }}:{{ .Values.images.version2_1.rls.tag}}
 
     spec:
-      serviceAccountName: istio-operator
+      serviceAccountName: {{.Release.Name }}-istio-operator
       containers:
         - name: istio-operator
           image: {{ .Values.images.version2_1.operator.repository }}:{{ .Values.images.version2_1.operator.tag}}
