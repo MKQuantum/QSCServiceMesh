@@ -66,7 +66,9 @@ The security levels we'll go through are the following -
 After completing all the steps., we'd have enabled complete Q-Safe protection for network communication into and within the cluster.
 
 ## 1) Legacy HTTPS to Ingress and HTTP connection Intra-Cluster
-- Prerequisite : Make sure that the gateway certs are generated and uploaded as a secret 
+- Prerequisite :
+ - Make sure the env variable SMCP_NS is configured. It should contain the namespace where the mesh-control-plane is deployed. Find more info [here](../mesh/mesh-control-plane/README.md)
+ - Make sure that the gateway certs are generated and uploaded as a secret 
 ```bash 
 cd maistra-2.1/bookinfo
 ./generate-certs.sh
