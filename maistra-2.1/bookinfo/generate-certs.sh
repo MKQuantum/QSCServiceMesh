@@ -5,5 +5,11 @@ openssl req -out book-info.apps-crc.testing.csr -newkey rsa:2048 -nodes -keyout 
 
 openssl x509 -req -days 365 -CA rootca.crt -CAkey rootca.key -set_serial 0 -in book-info.apps-crc.testing.csr -out book-info.apps-crc.testing.crt
 
+if [[ -z "${SMCP_NS}" ]]; then
+  echo "[ERROR]: The environment variable SMCP_NS is undefined. This env variable must contain the namespace where the mesh-control-plane is deployed. \
+  Look at the instructions under mesh/mesh-control-plane/README.md to set the env variable"
+  exit 1
+else
 kubectl create -n ${SMCP_NS} secret tls bookinfo-credential --key=book-info.apps-crc.testing.key --cert=book-info.apps-crc.testing.crt
+fi
 
