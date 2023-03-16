@@ -10,6 +10,6 @@ if [[ -z "${SMCP_NS}" ]]; then
   Look at the instructions under mesh/mesh-control-plane/README.md to set the env variable \n"
   exit 1
 else
-kubectl create -n ${SMCP_NS} secret tls bookinfo-credential --key=book-info.apps-crc.testing.key --cert=book-info.apps-crc.testing.crt
+  kubectl create -n ${SMCP_NS} secret tls bookinfo-credential --key=book-info.apps-crc.testing.key --cert=book-info.apps-crc.testing.crt
 fi
 
